@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text('Selamat Datang!',
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFF1A1A2E),
+                    color: const Color.fromARGB(255, 55, 128, 73),
                   ),
                 ),
                 const SizedBox(height: 8),
