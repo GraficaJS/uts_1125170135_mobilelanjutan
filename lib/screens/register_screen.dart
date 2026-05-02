@@ -1,3 +1,4 @@
+// lib/screens/register_screen.dart
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
  
@@ -47,7 +48,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-
           SnackBar(content: Text(e.toString()),
             backgroundColor: Colors.red.shade700),
         );
@@ -157,7 +157,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
             ),
-
           ),
         ),
       ),
