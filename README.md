@@ -1,13 +1,13 @@
-UTS Pemrograman Mobile Lanjutan
-📱 Aplikasi
-Aplikasi Stok Barang KominfotikJb
+# UTS Pemrograman Mobile Lanjutan
+## 📱 Aplikasi
+**Aplikasi Stok Barang KominfotikJb**
 
-👨‍💻 Pengembang
-Grafica Jati Sugiyarto
-NIM: 1125170135
-Kelas: TI SE KS 25
-Program Studi: Teknik Informatika
-Konsentrasi: Software Engineering
+## 👨‍💻 Pengembang
+### Grafica Jati Sugiyarto
+**NIM:** 1125170135
+**Kelas:** TI SE KS 25
+**Program Studi:** Teknik Informatika
+**Konsentrasi:** Software Engineering
 
 ⚙️ Tech Stack
 Aplikasi ini dirancang menggunakan:
