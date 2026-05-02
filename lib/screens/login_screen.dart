@@ -1,7 +1,8 @@
+// lib/screens/login_screen.dart
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import 'register_screen.dart';
- 
+import 'forgot_password_screen.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
  
@@ -15,7 +16,6 @@ class _LoginScreenState extends State<LoginScreen> {
   
   // Controller untuk input email dan password
   final _emailController    = TextEditingController();
-
   final _passwordController = TextEditingController();
   
   // State
@@ -70,7 +70,6 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: Center(
-
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
             child: Column(
@@ -98,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text('Selamat Datang!',
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(255, 55, 128, 73),
+                    color: const Color(0xFF1A1A2E),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -179,12 +178,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           
                           // ===== FORGOT PASSWORD =====
                           Align(
-
                             alignment: Alignment.centerRight,
                             child: TextButton(
-                              onPressed: () {
-                                // Implementasi lupa password
-                              },
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const ForgotPasswordScreen(),
+                                    ),
+                                  );
+                                },
                               child: const Text('Lupa Password?'),
                             ),
                           ),
@@ -234,7 +237,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Text('Daftar Sekarang',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
-
                   ],
                 ),
               ],
@@ -245,4 +247,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
