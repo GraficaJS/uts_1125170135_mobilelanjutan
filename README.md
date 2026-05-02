@@ -29,6 +29,25 @@ Aplikasi ini dirancang menggunakan:
 ---
 
 ## 📌 Deskripsi Singkat
-Aplikasi ini merupakan platform e-commerce berbasis mobile untuk penjualan ban mobil dan motor, yang memungkinkan pengguna melakukan pembelian secara online dengan sistem autentikasi dan pengelolaan data yang terintegrasi.
+
 
 ---
+### 🔐 Login
+![Login](assets/images/Login.jpeg)
+Halaman login pengguna dengan form email dan password.
+
+### 📝 Register
+![Register](assets/images/Register.jpeg)
+Halaman pendaftaran akun baru dengan input data pengguna.
+
+### ✉️ Verifikasi Email
+![Verifikasi Email](assets/images/Email.jpeg)
+Menampilkan proses verifikasi email setelah registrasi.
+
+### 💬 Dashboard belum verifikasi
+![Dashboard](assets/images/dashboard 1.jpeg)
+Menampilkan tampilan pengiriman email atau notifikasi dari sistem.
+
+### 🏠 Dashboard sudah verifikasi
+![Dashboard](assets/images/dashboard 2.jpeg)
+Menampilkan daftar produk dan kategori utama.
