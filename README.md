@@ -1,16 +1,28 @@
-# flutter_firebase_auth
+UTS Pemrograman Mobile Lanjutan
+📱 Aplikasi
+Aplikasi Stok Barang KominfotikJb
 
-A new Flutter project.
+👨‍💻 Pengembang
+Grafica Jati Sugiyarto
+NIM: 1125170135
+Kelas: TI SE KS 25
+Program Studi: Teknik Informatika
+Konsentrasi: Software Engineering
 
-## Getting Started
+⚙️ Tech Stack
+Aplikasi ini dirancang menggunakan:
 
-This project is a starting point for a Flutter application.
+Flutter
+Sebagai Front-End untuk menerima respon dari backend dan mengirim input dari user.
 
-A few resources to get you started if this is your first Flutter project:
+Firebase
+Digunakan untuk autentikasi, termasuk verifikasi email dan login dengan Google.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Golang (Backend API)
+Sebagai backend untuk menghubungkan database dengan aplikasi frontend.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+MySQL
+Sebagai database lokal untuk penyimpanan data.
+
+📌 Deskripsi Singkat
+
