@@ -46,8 +46,8 @@ Menampilkan proses verifikasi email setelah registrasi.
 
 ### 💬 Dashboard belum verifikasi
 ![Dashboard](assets/images/dashboard1.jpeg)
-Menampilkan tampilan pengiriman email atau notifikasi dari sistem.
+Menampilkan Dashbiard yang sudah ter verifikasi
 
 ### 🏠 Dashboard sudah verifikasi
 ![Dashboard](assets/images/dashboard2.jpeg)
-Menampilkan daftar produk dan kategori utama.
+Menampilkan Dashbiard yang sudah ter verifikasi
