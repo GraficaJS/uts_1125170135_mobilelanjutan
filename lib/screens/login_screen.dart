@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import 'register_screen.dart';
 import 'forgot_password_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
  
@@ -43,6 +44,12 @@ class _LoginScreenState extends State<LoginScreen> {
         email:    _emailController.text,
         password: _passwordController.text,
       );
+      final user = FirebaseAuth.instance.currentUser;
+
+debugPrint("USER: ${user?.email}");
+debugPrint("UID: ${user?.uid}");
+debugPrint("VERIFIED: ${user?.emailVerified}");
+
       // Navigasi otomatis oleh StreamBuilder di main.dart
     } catch (e) {
       if (mounted) {

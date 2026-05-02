@@ -19,7 +19,7 @@ Future<void> main() async {
   );
   
   // Inisialisasi NotificationService
-  await NotificationService().initialize();
+  //await NotificationService().initialize();
 
   runApp(
     MultiProvider(
