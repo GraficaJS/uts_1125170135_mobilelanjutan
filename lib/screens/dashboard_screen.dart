@@ -1,6 +1,8 @@
+// lib/screens/dashboard_screen.dart
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import '../services/auth_service.dart';
+import '../services/notification_service.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -10,40 +12,31 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  User? user;
+  final _authService = AuthService();
+  String? _fcmToken;
 
   @override
   void initState() {
     super.initState();
-    loadUser();
+    _loadFcmToken();
   }
 
-  Future<void> loadUser() async {
-    await FirebaseAuth.instance.currentUser?.reload();
-    final updatedUser = FirebaseAuth.instance.currentUser;
-
-    print("EMAIL: ${updatedUser?.email}");
-    print("VERIFIED: ${updatedUser?.emailVerified}");
-
-    setState(() {
-      user = updatedUser;
-    });
+  Future<void> _loadFcmToken() async {
+    final token = await NotificationService().getToken();
+    if (mounted) {
+      setState(() => _fcmToken = token);
+    }
   }
 
+  @override
   Widget build(BuildContext context) {
-    // Ambil data user yang sedang login
-    final authService = AuthService();
     final theme = Theme.of(context);
+    final user = _authService.currentUser;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-
-      // ========== APP BAR ==========
       appBar: AppBar(
-        title: const Text(
-          'Dashboard',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: const Text('Dashboard', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: theme.colorScheme.primary,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -62,12 +55,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: const ListTile(
                   leading: Icon(Icons.logout, color: Colors.red),
                   title: Text('Logout'),
-
                   contentPadding: EdgeInsets.zero,
                 ),
                 onTap: () async {
-                  await authService.logout();
-                  // Navigasi otomatis oleh StreamBuilder
+                  await _authService.logout();
                 },
               ),
             ],
@@ -75,7 +66,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           const SizedBox(width: 8),
         ],
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -115,11 +105,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Selamat Datang! 👋',
-                          style: TextStyle(color: Colors.white70, fontSize: 14),
-                        ),
-
+                        const Text('Selamat Datang! 👋',
+                            style: TextStyle(color: Colors.white70, fontSize: 14)),
                         const SizedBox(height: 4),
                         Text(
                           user?.email ?? 'User',
@@ -133,18 +120,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                         const SizedBox(height: 4),
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 2,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
                             color: Colors.white24,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: const Text(
-                            '✓ Terverifikasi',
-                            style: TextStyle(color: Colors.white, fontSize: 12),
-                          ),
+                          child: const Text('✓ Terverifikasi',
+                              style: TextStyle(color: Colors.white, fontSize: 12)),
                         ),
                       ],
                     ),
@@ -155,46 +137,56 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             const SizedBox(height: 24),
 
-            // ========== STATISTIK CARDS ==========
-            const Text(
-              'Ringkasan',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
+            // ========== FCM TOKEN CARD ==========
+            const Text('Firebase Cloud Messaging',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             const SizedBox(height: 12),
-
-            Row(
-              children: [
-                _StatCard(
-                  icon: Icons.task_alt,
-                  label: 'Total Tugas',
-                  value: '12',
-                  color: Colors.blue,
+            Card(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: BorderSide(color: Colors.grey.shade200),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('FCM Token (untuk Testing):',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 8),
+                    SelectableText(_fcmToken ?? 'Memuat token...',
+                        style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        icon: const Icon(Icons.copy, size: 16),
+                        label: const Text('Salin Token'),
+                        onPressed: _fcmToken == null
+                            ? null
+                            : () {
+                                Clipboard.setData(ClipboardData(text: _fcmToken!));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Token disalin!')));
+                              },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: theme.colorScheme.primaryContainer,
+                          foregroundColor: theme.colorScheme.onPrimaryContainer,
+                          elevation: 0,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 12),
-                _StatCard(
-                  icon: Icons.check_circle_outline,
-                  label: 'Selesai',
-                  value: '8',
-                  color: Colors.green,
-                ),
-                const SizedBox(width: 12),
-                _StatCard(
-                  icon: Icons.pending_actions,
-
-                  label: 'Pending',
-                  value: '4',
-                  color: Colors.orange,
-                ),
-              ],
+              ),
             ),
 
             const SizedBox(height: 24),
 
             // ========== INFO AKUN ==========
-            const Text(
-              'Informasi Akun',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
+            const Text('Informasi Akun',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             const SizedBox(height: 12),
 
             Card(
@@ -215,7 +207,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   _InfoTile(
                     icon: Icons.badge_outlined,
                     label: 'User ID',
-                    value: user?.uid.substring(0, 16) ?? '-',
+                    value: user?.uid ?? '-',
                   ),
                   const Divider(height: 1, indent: 56),
                   _InfoTile(
@@ -224,9 +216,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     value: user?.emailVerified == true
                         ? 'Terverifikasi'
                         : 'Belum Terverifikasi',
-                    valueColor: user?.emailVerified == true
-                        ? Colors.green
-                        : Colors.orange,
+                    valueColor: user?.emailVerified == true ? Colors.green : Colors.orange,
                   ),
                 ],
               ),
@@ -238,22 +228,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(
-                onPressed: () async => await authService.logout(),
-
+                onPressed: () async => await _authService.logout(),
                 icon: const Icon(Icons.logout, color: Colors.red),
-                label: const Text(
-                  'Logout',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                label: const Text('Logout',
+                    style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   side: const BorderSide(color: Colors.red),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
               ),
             ),
@@ -266,52 +248,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 }
 
 // ========== WIDGET HELPER ==========
-class _StatCard extends StatelessWidget {
-  final IconData icon;
-  final String label, value;
-  final Color color;
-
-  const _StatCard({
-    required this.icon,
-    required this.label,
-    required this.value,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: color.withOpacity(0.2)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(icon, color: color, size: 24),
-            const SizedBox(height: 8),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
-            ),
-            Text(
-              label,
-              style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _InfoTile extends StatelessWidget {
   final IconData icon;
   final String label, value;
@@ -328,17 +264,12 @@ class _InfoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(icon, color: Theme.of(context).colorScheme.primary),
-      title: Text(
-        label,
-        style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
-      ),
-      subtitle: Text(
-        value,
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          color: valueColor ?? Colors.black87,
-        ),
-      ),
+      title: Text(label, style: TextStyle(color: Colors.grey.shade600, fontSize: 13)),
+      subtitle: Text(value,
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: valueColor ?? Colors.black87,
+          )),
     );
   }
 }
