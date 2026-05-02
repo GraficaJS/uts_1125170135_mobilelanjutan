@@ -45,9 +45,9 @@ Halaman pendaftaran akun baru dengan input data pengguna.
 Menampilkan proses verifikasi email setelah registrasi.
 
 ### 💬 Dashboard belum verifikasi
-![Dashboard](assets/images/dashboard 1.jpeg)
+![Dashboard](assets/images/dashboard1.jpeg)
 Menampilkan tampilan pengiriman email atau notifikasi dari sistem.
 
 ### 🏠 Dashboard sudah verifikasi
-![Dashboard](assets/images/dashboard 2.jpeg)
+![Dashboard](assets/images/dashboard2.jpeg)
 Menampilkan daftar produk dan kategori utama.
